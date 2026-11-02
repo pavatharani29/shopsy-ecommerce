@@ -106,4 +106,4 @@ const Hero = ({ handleOrderPopup }) => {
   );
 };
 
-export default Hero;
+// export default Hero;
