@@ -1,4 +1,3 @@
-import React from "react";
 import Img1 from "../../assets/women/women.png";
 import Img2 from "../../assets/women/women2.jpg";
 import Img3 from "../../assets/women/women3.jpg";
@@ -41,14 +40,23 @@ const ProductsData = [
   {
     id: 5,
     img: Img2,
-    title: "Fashin T-Shirt",
+    title: "Fashion T-Shirt",
     rating: 4.5,
     color: "Pink",
     aosDelay: "800",
   },
 ];
 
-const Products = () => {
+const Products = ({ query = "", clearQuery }) => {
+  const term = query.trim().toLowerCase();
+  const visible = term
+    ? ProductsData.filter(
+        (p) =>
+          p.title.toLowerCase().includes(term) ||
+          p.color.toLowerCase().includes(term)
+      )
+    : ProductsData;
+
   return (
     <div className="mt-14 mb-12">
       <div className="container">
@@ -69,7 +77,7 @@ const Products = () => {
         <div>
           <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 place-items-center gap-5">
             {/* card section */}
-            {ProductsData.map((data) => (
+            {visible.map((data) => (
               <div
                 data-aos="fade-up"
                 data-aos-delay={data.aosDelay}
@@ -78,7 +86,10 @@ const Products = () => {
               >
                 <img
                   src={data.img}
-                  alt=""
+                  alt={data.title}
+                  width="150"
+                  height="220"
+                  loading="lazy"
                   className="h-[220px] w-[150px] object-cover rounded-md"
                 />
                 <div>
@@ -92,11 +103,28 @@ const Products = () => {
               </div>
             ))}
           </div>
-          {/* view all button */}
+          {visible.length === 0 && (
+            <div className="text-center text-gray-500 py-10" role="status">
+              <p>No products match &ldquo;{query}&rdquo;.</p>
+              {clearQuery && (
+                <button
+                  type="button"
+                  onClick={clearQuery}
+                  className="mt-4 bg-primary text-white py-1 px-5 rounded-md"
+                >
+                  Clear search
+                </button>
+              )}
+            </div>
+          )}
+          {/* link to the next section */}
           <div className="flex justify-center">
-            <button className="text-center mt-10 cursor-pointer bg-primary text-white py-1 px-5 rounded-md">
-              View All Button
-            </button>
+            <a
+              href="#top-rated"
+              className="text-center mt-10 bg-primary text-white py-1 px-5 rounded-md hover:scale-105 duration-200"
+            >
+              See Top Rated
+            </a>
           </div>
         </div>
       </div>

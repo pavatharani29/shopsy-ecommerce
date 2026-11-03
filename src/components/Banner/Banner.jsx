@@ -1,4 +1,3 @@
-import React from "react";
 import BannerImg from "../../assets/women/women2.jpg";
 import { GrSecure } from "react-icons/gr";
 import { IoFastFood } from "react-icons/io5";
@@ -13,7 +12,8 @@ const Banner = () => {
           <div data-aos="zoom-in">
             <img
               src={BannerImg}
-              alt=""
+              alt="Winter sale"
+              loading="lazy"
               className="max-w-[400px] h-[350px] w-full mx-auto drop-shadow-[-10px_10px_12px_rgba(0,0,0,1)] object-cover"
             />
           </div>

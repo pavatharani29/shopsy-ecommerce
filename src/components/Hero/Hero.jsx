@@ -1,4 +1,3 @@
-import React from "react";
 import Image1 from "../../assets/hero/women.png";
 import Image2 from "../../assets/hero/shopping.png";
 import Image3 from "../../assets/hero/sale.png";
@@ -76,6 +75,7 @@ const Hero = ({ handleOrderPopup }) => {
                     data-aos-delay="300"
                   >
                     <button
+                      type="button"
                       onClick={handleOrderPopup}
                       className="bg-gradient-to-r from-primary to-secondary hover:scale-105 duration-200 text-white py-2 px-4 rounded-full"
                     >
@@ -92,7 +92,7 @@ const Hero = ({ handleOrderPopup }) => {
                   >
                     <img
                       src={data.img}
-                      alt=""
+                      alt={data.title}
                       className="w-[300px] h-[300px] sm:h-[450px] sm:w-[450px] sm:scale-105 lg:scale-120 object-contain mx-auto"
                     />
                   </div>

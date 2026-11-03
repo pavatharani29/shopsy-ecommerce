@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
+// base './' makes the built site work from any URL path:
+// GitHub Pages (/shopsy-ecommerce/), a custom domain, or localhost.
 export default defineConfig({
   plugins: [react()],
-  base: '/shopsy-ecommerce/',
+  base: './',
 })

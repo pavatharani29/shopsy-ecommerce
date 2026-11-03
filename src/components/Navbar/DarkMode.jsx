@@ -1,41 +1,54 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import LightButton from "../../assets/website/light-mode-button.png";
 import DarkButton from "../../assets/website/dark-mode-button.png";
 
+const getInitialTheme = () => {
+  try {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark" || saved === "light") return saved;
+  } catch {
+    // storage blocked (private mode etc.) - fall through to system preference
+  }
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
 const DarkMode = () => {
-  const [theme, setTheme] = React.useState(
-    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
-  );
+  const [theme, setTheme] = useState(getInitialTheme);
 
-  const element = document.documentElement; // html element
-
-  React.useEffect(() => {
-    if (theme === "dark") {
-      element.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      element.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    try {
+      localStorage.setItem("theme", theme);
+    } catch {
+      // ignore - theme just won't be remembered
     }
   }, [theme]);
 
   return (
-    <div className="relative">
+    <button
+      type="button"
+      aria-label="Toggle dark mode"
+      aria-pressed={theme === "dark"}
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+      className="relative block w-12 cursor-pointer"
+    >
       <img
         src={LightButton}
         alt=""
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        className={`w-12 cursor-pointer drop-shadow-[1px_1px_1px_rgba(0,0,0,0.1)] transition-all duration-300 absolute right-0 z-10 ${
+        draggable={false}
+        className={`w-12 drop-shadow-[1px_1px_1px_rgba(0,0,0,0.1)] transition-all duration-300 absolute right-0 z-10 ${
           theme === "dark" ? "opacity-0" : "opacity-100"
-        } `}
+        }`}
       />
       <img
         src={DarkButton}
         alt=""
-        onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-        className="w-12 cursor-pointer drop-shadow-[1px_1px_1px_rgba(0,0,0,0.1)] transition-all duration-300"
+        draggable={false}
+        className="w-12 drop-shadow-[1px_1px_1px_rgba(0,0,0,0.1)] transition-all duration-300"
       />
-    </div>
+    </button>
   );
 };
 
